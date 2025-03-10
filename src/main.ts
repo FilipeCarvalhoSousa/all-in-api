@@ -6,8 +6,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('API All In')    
-    .setDescription('API All In, onde tem todos os meus projetos')
+    .setTitle(process.env.SWAGGER_TITLE ?? 'All In API')    
+    .setDescription(process.env.SWAGGER_DESCRIPTION ?? 'API para o projeto All In')
     .setVersion('1.0')
     .addTag('All-In')
     .build();

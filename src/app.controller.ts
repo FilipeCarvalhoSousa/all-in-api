@@ -7,6 +7,8 @@ export class AppController {
 
   @Get()
   getHello(): string {
+    console.log(process.env.SWAGGER_TITLE);
+    
     return this.appService.getHello();
   }
 }
