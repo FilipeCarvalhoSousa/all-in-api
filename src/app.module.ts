@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PessoasService } from './service/pessoas/pessoas.service';
-import { PessoasController } from './controller/pessoas/pessoas.controller';
-import { PessoasRepository } from './repository/pessoas/pessoas.repository';
-import { PessoasSchema } from './model/pessoas/pessoas.model';
+import { MongooseModule } from '@nestjs/mongoose';
+import { PessoaController } from './Controller/pessoa/pessoa.controller';
+import { PessoaSchema } from './Model/pessoa/pessoa.model';
+import { PessoaRepository } from './Repository/pessoa/pessoa.repository';
+import { PessoaService } from './Service/pessoa/pessoa.service';
 
 @Module({
   imports: [
@@ -17,9 +15,9 @@ import { PessoasSchema } from './model/pessoas/pessoas.model';
         uri: configService.get('MONGO_URI'),
       }),
     }),
-    MongooseModule.forFeature([{ name: 'Pessoas', schema: PessoasSchema }]),
+    MongooseModule.forFeature([{ name: 'Pessoa', schema: PessoaSchema }]),
   ],
-  controllers: [AppController, PessoasController],
-  providers: [AppService, PessoasService, PessoasRepository],
+  controllers: [PessoaController],
+  providers: [PessoaService, PessoaRepository],
 })
 export class AppModule {}
