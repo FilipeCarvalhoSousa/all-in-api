@@ -1,25 +1,25 @@
 import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
-
-// import { ConfigModule } from '@nestjs/config';
-import { HelloWordController } from './Controller/hello-word/hello-word.controller';
-import { HelloWordService } from './Service/hello-word/hello-word.service';
-import { PessoaSchema } from './Model/pessoa/pessoa.model';
-import { PessoaService } from './Service/pessoa/pessoa.service';
-import { PessoaController } from './Controller/pessoa/pessoa.controller';
-import { PessoaRepository } from './Repository/pessoa/pessoa.repository';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PessoasService } from './service/pessoas/pessoas.service';
+import { PessoasController } from './controller/pessoas/pessoas.controller';
+import { PessoasRepository } from './repository/pessoas/pessoas.repository';
+import { PessoasSchema } from './model/pessoas/pessoas.model';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      process.env.MONGO_URI ??
-        'mongodb://admin:root@192.168.100.189:27017/mongodb?authSource=admin',
-    ),
-    MongooseModule.forFeature([{ name: 'Pessoa', schema: PessoaSchema }]),
-    // ConfigModule.forRoot({ isGlobal: true }),
-    // Conectar ao MongoDB usando a variável de ambiente
+    ConfigModule.forRoot(),
+    MongooseModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get('MONGO_URI'),
+      }),
+    }),
+    MongooseModule.forFeature([{ name: 'Pessoas', schema: PessoasSchema }]),
   ],
-  controllers: [HelloWordController, PessoaController],
-  providers: [HelloWordService, PessoaService, PessoaRepository],
+  controllers: [AppController, PessoasController],
+  providers: [AppService, PessoasService, PessoasRepository],
 })
 export class AppModule {}
