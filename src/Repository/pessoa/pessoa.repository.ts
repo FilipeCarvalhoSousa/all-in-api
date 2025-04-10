@@ -20,4 +20,8 @@ export class PessoaRepository {
     const pessoaCriada = new this.pessoaModel(pessoa);
     return await pessoaCriada.save();
   }
+
+  async atualizarPessoa(id: string, pessoa: PessoaDto): Promise<Pessoa | null> {
+    return await this.pessoaModel.findOneAndUpdate({ id: id }, pessoa, { new: true });
+  }
 }

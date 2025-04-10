@@ -1,4 +1,4 @@
-import { IsDate, IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsDate, IsDateString, IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { EnderecoDto } from './endereco.dto';
 import sexo from './../../Helpers/enums/sexo.enum';
 import estadoCivil from 'src/Helpers/enums/estado-civil.enum';
@@ -14,7 +14,7 @@ export class PessoaDto {
   readonly nome: string;
 
   @ApiProperty()
-  @IsDate()
+  @IsDateString({ strict: true })
   readonly data_nascimento: Date;
 
   @ApiProperty()
