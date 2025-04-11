@@ -1,0 +1,35 @@
+version: 3.8
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - minha-rede
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+
+  api:
+    build: .
+    container_name: api-nest
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - minha-rede
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_URI: "mongodb://admin:secret@mongodb:27017/all_in_api?authSource=admin"
+
+networks:
+  minha-rede:
+    driver: bridge
+
+volumes:
+  mongo-data: 
